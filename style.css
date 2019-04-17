@@ -37,3 +37,50 @@ canvas{
     text-shadow: 2px 2px rgb(223, 219, 219);
     font-weight: bold;
 }
+#tools{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.tool{
+    background-color: white;
+    border: 2px solid black;
+    border-radius: 5px; 
+    color: black;
+    font-size: 30px;
+    cursor: pointer;
+}
+.blur{
+    filter:blur(5px);
+}
+.contrast{
+    filter:contrast(150%);
+}
+.brightness{
+  filter:brightness(150%);
+}
+.invert{
+    filter:invert(100%);
+}   
+.sephia{
+    filter:sepia(100%);
+}
+.grayscale{
+    filter:grayscale(100%);
+}
+.hue{
+    filter:hue-rotate(90deg);
+}
+.none{
+    filter: none;
+}
+
+.retry{
+    color: black;
+    font-size: 40px;
+    text-shadow: 2px 2px rgb(223, 219, 219);
+    font-weight: bold;
+    text-transform: capitalize;
+    cursor: pointer;
+}
