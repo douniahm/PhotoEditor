@@ -1,0 +1,39 @@
+body{
+    font-family: 'Courier New', Courier, monospace;
+    align-items: center
+}
+canvas{
+    border: 1px dashed gray;
+}
+#divVideo, #divStart, #imgOutput{
+    font-size: 30px;
+    color: '#794ACF';
+    text-align: center;
+}
+
+#start, #capture, #btnSave{
+    background-color: black;
+    border: 2px solid black;
+    border-radius: 5px; 
+    color: white;
+    font-size: 40px;
+}
+#start:hover, #capture:hover, #btnSave:hover{
+    background-color: grey;
+}
+#divVideo {
+    position: relative;
+}
+#parentVid{
+    position: absolute;
+    top: 0;
+    left: 30%;
+    z-index: -1;
+}
+#divCount{
+    position: relative;
+    top: 100px;
+    font-size: 40px;
+    text-shadow: 2px 2px rgb(223, 219, 219);
+    font-weight: bold;
+}
