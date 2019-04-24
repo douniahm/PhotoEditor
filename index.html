@@ -16,6 +16,7 @@
     <div id="tools">
             <div hidden id="none" class="tool" onclick="vlib.applyFilter('none')">Original</div>
             <div hidden id="blur" class="tool" onclick="vlib.applyFilter('blur')">Blur</div>
+            <div hidden id="rotate" class="tool" onclick="vlib.applyFilter('rotate')">Rotate</div>
             <div hidden id="contrast" class="tool" onclick="vlib.applyFilter('contrast')">Contrast</div>
             <div hidden id="brightness" class="tool" onclick="vlib.applyFilter('brightness')">Brightness</div>
             <div hidden id="invert" class="tool" onclick="vlib.applyFilter('invert')">Invert</div>
@@ -25,15 +26,13 @@
     </div>
 
     <div id="divVideo" hidden> 
-            <button onclick="vlib.capture()" id="capture" >Capture</button>  
-            <br> <br>
-
-        <div id="divCount">
-        </div>
+        <button onclick="vlib.capture()" id="capture" >Capture</button>  
+        <br> <br>
+        <div id="divCount"></div>
         <div id="parentVid">
-                <video id="v1"  width="500" height="500" >
-                </video>
-            </div> 
+            <video id="v1"  width="500" height="500" >
+            </video>
+        </div> 
     </div>
     
     <div id="imgOutput">

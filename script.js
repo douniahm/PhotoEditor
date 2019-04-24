@@ -8,6 +8,7 @@ var vlib = {
         this.tool = document.getElementsByClassName('tool');
 
         let stream;
+        let deg = 0; //degree of transormation
         
         this.video = document.querySelector('#v1');
         this.ctx = this.canvas.getContext('2d');
@@ -60,7 +61,7 @@ var vlib = {
             this.divVideo.parentNode.removeChild(this.divVideo);
             this.btnSave.removeAttribute("hidden");
             
-            for(let i =0; i<8;i++) this.tool[i].removeAttribute('hidden');
+            for(let i =0; i<9;i++) this.tool[i].removeAttribute('hidden');
 
             } ,6000);
         
@@ -123,12 +124,21 @@ var vlib = {
             this.img.className+='none';
             this.ctx.filter+='none';
         }
+        else if(filter=='rotate') {
+           if(this.deg<270) this.deg+=90;
+           else this.deg = 0;
+           console.log(this.deg);
+            this.img.style.transform = 'rotate('+this.deg+'deg)';
+            /*this.ctx.translate(0,0);
+            this.ctx.drawImage(this.img,this.img.height,this.img.width);
+            this.ctx.rotate(this.deg*Math.PI/180);  
+            this.btnSave.href = this.canvas.toDataURL('image/jpeg', 1.0);
+            this.ctx.restore();*/
+        }
         this.ctx.width = this.img.width;
         this.ctx.height = this.img.height;
         this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
-       // this.ctx.filter = "sepia(100%)";
-        this.btnSave.href = this.canvas.toDataURL('image/jpeg', 1.0);
-        
+        this.btnSave.href = this.canvas.toDataURL('image/jpeg', 1.0);  
     }
 }
 
