@@ -5,40 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js" ></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css" rel="stylesheet"/>
     <title>Photo Editor</title>
 </head>
 <body>
     <div id="divStart"> 
-        <p>Take a photo!</p> <br>
+        <p style="color:white">Take a photo!</p>
         <button onclick="vlib.init()" id="start">Start</button>
-        <br>
-    </div>
-    <div id="tools">
-            <div hidden id="none" class="tool" onclick="vlib.applyFilter('none')">Original</div>
-            <div hidden id="blur" class="tool" onclick="vlib.applyFilter('blur')">Blur</div>
-            <div hidden id="rotate" class="tool" onclick="vlib.applyFilter('rotate')">Rotate</div>
-            <div hidden id="contrast" class="tool" onclick="vlib.applyFilter('contrast')">Contrast</div>
-            <div hidden id="brightness" class="tool" onclick="vlib.applyFilter('brightness')">Brightness</div>
-            <div hidden id="invert" class="tool" onclick="vlib.applyFilter('invert')">Invert</div>
-            <div hidden id="sephia" class="tool" onclick="vlib.applyFilter('sephia')">Sephia</div>
-            <div hidden id="grayscale" class="tool" onclick="vlib.applyFilter('grayscale')">Grayscale</div>
-            <div hidden id="hue" class="tool" onclick="vlib.applyFilter('hue')">Hue</div>
+        <button hidden onclick="vlib.capture()" class="capture" >Capture</button>
     </div>
 
-    <div id="divVideo" hidden> 
-        <button onclick="vlib.capture()" id="capture" >Capture</button>  
-        <br> <br>
-        <div id="divCount"></div>
-        <div id="parentVid">
-            <video id="v1"  width="500" height="500" >
-            </video>
-        </div> 
-    </div>
-    
-    <div id="imgOutput">
-               <br> <a download="picture.jpeg"  id="save" href="#" hidden>
-                    <button type="submit" id="btnSave">Save</button>
-               </a> <br>
+    <div id="container">
+        <div id="outputs"> 
+            <div id="divCount"></div>
+            <div id="divVideo" hidden> 
+                    <video id="v1"  width="500" height="500">
+                    </video>
+            </div>
+
+            <div id="imgOutput"></div>
+            <div id="result"></div>
+        </div>
+
+        <div id="toolsContainer">
+            <div>
+                <div hidden id="none" class="tool" onclick="vlib.applyFilter('none')">Original</div>
+                <div hidden id="blur" class="tool" onclick="vlib.applyFilter('blur')">Blur</div>
+                <div hidden id="rotate" class="tool" onclick="vlib.applyFilter('rotate')">Rotate</div>
+                <div hidden id="contrast" class="tool" onclick="vlib.applyFilter('contrast')">Contrast</div>
+                <div hidden id="brightness" class="tool" onclick="vlib.applyFilter('brightness')">Brightness</div>
+                <div hidden id="invert" class="tool" onclick="vlib.applyFilter('invert')">Invert</div>
+                <div hidden id="sephia" class="tool" onclick="vlib.applyFilter('sephia')">Sephia</div>
+                <div hidden id="grayscale" class="tool" onclick="vlib.applyFilter('grayscale')">Grayscale</div>
+                <div hidden id="hue" class="tool" onclick="vlib.applyFilter('hue')">Hue</div>
+                <div hidden id="crop" class="tool" onclick="vlib.cropping()">Crop</div>
+            </div>
+                <div class="download"></div>
+            </div>
+            
     </div>
 
     <script src="script.js">

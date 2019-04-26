@@ -1,6 +1,7 @@
 var vlib = {
     init(){
         this.canvas = document.createElement("canvas");
+        this.ctx = this.canvas.getContext('2d');
         this.canvas.setAttribute("width",500);
         this.canvas.setAttribute("height",500);
 
@@ -11,19 +12,21 @@ var vlib = {
         let deg = 0; //degree of transormation
         
         this.video = document.querySelector('#v1');
-        this.ctx = this.canvas.getContext('2d');
         this.w = this.video.width;
         this.h = this.video.height;
         this.btnStart = document.querySelector('#start');
-        this.btnCapture = document.querySelector('#capture');
-        this.btnSave = document.querySelector('#save');
-
+        this.btnCapture = document.querySelector('.capture');
+        this.btnDownload = document.querySelector('.download');
+      
         this.divVideo = document.querySelector("#divVideo");
         this.divStart = document.querySelector("#divStart");
         this.output = document.querySelector("#imgOutput");
         this.count = document.querySelector("#divCount");
         this.img;
+        this.downloadLink
         this.startCamera();
+        this.cropper;
+
     },
     capture(){
         let i = 4;
@@ -35,13 +38,14 @@ var vlib = {
             if(i == 0){
                 clearInterval(interval);
             }
-            }, 1000); 
+            }, 500); 
         
         setTimeout( async ()=>{
             //on capture une img de la video
-            this.ctx.drawImage(this.video,0,0,500,500,10,10,480,490);
-
+            //this.ctx.drawImage(this.video,0,0,500,500,10,10,480,490);
+            this.ctx.drawImage(this.video,0,0,this.video.width, this.video.height);
             this.img = document.createElement("img");
+            this.img.id="img" ;
             this.img.src = this.canvas.toDataURL('image/jpeg', 1.0);
 
             try{
@@ -49,8 +53,6 @@ var vlib = {
             }catch(error){
                 console.log(error);
             }
-            this.output.prepend(this.img);
-
             let retry = document.createElement('p');
             retry.innerHTML = "RETRY";
             retry.setAttribute('onclick','vlib.retry()');
@@ -58,10 +60,21 @@ var vlib = {
             this.divStart.appendChild(retry);
 
             //this.divVideo.outerHTML="";
-            this.divVideo.parentNode.removeChild(this.divVideo);
-            this.btnSave.removeAttribute("hidden");
+            this.divVideo.parentNode.removeChild(this.divVideo);//////////////////////////////
+            this.btnCapture.setAttribute('hidden', 'true')
+            this.count.setAttribute('hidden', 'true')
+
+            this.downloadLink = document.createElement('a');
+            this.downloadLink.innerHTML = "Download"
+            this.downloadLink.setAttribute('role', 'button')
+            this.downloadLink.setAttribute('download', 'picture.jpeg')
+            this.downloadLink.className += "download";            
+            this.downloadCanvas();
+
+             this.output.prepend(this.img);
+             this.btnDownload.prepend(this.downloadLink);
             
-            for(let i =0; i<9;i++) this.tool[i].removeAttribute('hidden');
+            for(let i =0; i<10;i++) this.tool[i].removeAttribute('hidden');
 
             } ,6000);
         
@@ -71,10 +84,12 @@ var vlib = {
         try{
            this.stream = await navigator.mediaDevices.getUserMedia({video:true})//return a promise
           // this.video.removeAttribute("hidden");
+          this.btnCapture.removeAttribute('hidden');
            this.video.srcObject = this.stream
            this.video.play()
            this.btnStart.parentNode.removeChild(this.btnStart);
            this.divVideo.removeAttribute("hidden");
+
         }catch(error){
             console.log(error);
         }
@@ -82,7 +97,27 @@ var vlib = {
     retry: function(){
         window.location.reload();
     },
-
+    downloadCanvas: function(){
+        this.ctx.width = this.img.width;
+        this.ctx.height = this.img.height;
+        this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
+          
+        this.downloadLink.href = this.canvas.toDataURL('image/jpeg', 1.0); 
+    },
+    downloadImg: function(){
+       // this.cropper.crop();
+        let imgSrc =  this.cropper.getCroppedCanvas({
+            width: this.img.width,
+            height: this.img.height,
+            fillColor: '#fff'
+          }).toDataURL('image/jpeg', 1.0);
+          this.downloadLink.href = imgSrc;
+        
+         /* var img = document.createElement("img");
+            img.src = imgSrc;
+            document.getElementById("result").appendChild(img);*/
+            console.log(imgSrc);
+    },
     applyFilter: function(filter){
         if(filter=='blur') {
             this.img.className='';
@@ -135,10 +170,11 @@ var vlib = {
             this.btnSave.href = this.canvas.toDataURL('image/jpeg', 1.0);
             this.ctx.restore();*/
         }
-        this.ctx.width = this.img.width;
-        this.ctx.height = this.img.height;
-        this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
-        this.btnSave.href = this.canvas.toDataURL('image/jpeg', 1.0);  
+         this.downloadCanvas();   
+    },
+    cropping: function(){
+            this.cropper = new Cropper(this.img);
+            this.downloadLink.onclick = this.downloadImg();
     }
 }
 

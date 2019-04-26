@@ -1,55 +1,82 @@
 body{
-    font-family: 'Courier New', Courier, monospace;
-    align-items: center
+    font-family: 'Open Sans Condensed', sans-serif;    align-items: center;
+    text-align: center;
+    align-content: center;
+    background: linear-gradient(to bottom right, #0099F7, #F11712) ; 
+    background: -webkit-linear-gradient(left top, #0099F7, #F11712);    
 }
-canvas{
-    border: 1px dashed gray;
+#container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
+#outputs{
+   display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#toolsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content:  center;
+    align-items: center;
+}
+#tools{
+    display: flex;
+    flex-direction: column;
+    justify-content: center ;
+    align-items: center;
+}
+
 #divVideo, #divStart, #imgOutput{
     font-size: 30px;
     color: '#794ACF';
     text-align: center;
+    align-content: center;
 }
 
-#start, #capture, #btnSave{
+#start, .capture, .download{
     background-color: black;
     border: 2px solid black;
     border-radius: 5px; 
     color: white;
     font-size: 40px;
+    text-decoration: none;
 }
-#start:hover, #capture:hover, #btnSave:hover{
-    background-color: grey;
+#start:hover, .capture:hover, .download:hover{
+    background-color: transparent;
 }
 #divVideo {
-    position: relative;
+    margin: 10px;
+    }
+.download{
+    margin: 10px;
+    text-decoration: none;
 }
+/*
 #parentVid{
+    margin: 10px;
     position: absolute;
     top: 0;
     left: 30%;
     z-index: -1;
-}
+}*/
 #divCount{
-    position: relative;
-    top: 100px;
     font-size: 40px;
     text-shadow: 2px 2px rgb(223, 219, 219);
     font-weight: bold;
 }
-#tools{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
+
 .tool{
-    background-color: white;
+    background-color: black;
     border: 2px solid black;
-    border-radius: 5px; 
-    color: black;
-    font-size: 30px;
+    border-radius: 3px; 
+    color: white;
+    font-size: 20px;
     cursor: pointer;
+    margin: 10px;
 }
 .blur{
     filter:blur(5px);
@@ -83,4 +110,8 @@ canvas{
     font-weight: bold;
     text-transform: capitalize;
     cursor: pointer;
+}
+#imgOutput{
+    touch-action: none;
+
 }
