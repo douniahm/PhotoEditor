@@ -9,7 +9,7 @@ var vlib = {
         this.tool = document.getElementsByClassName('tool');
 
         let stream;
-        let deg = 0; //degree of transormation
+        let deg = 0; //degree of rotation
         
         this.video = document.querySelector('#v1');
         this.w = this.video.width;
@@ -23,6 +23,7 @@ var vlib = {
         this.output = document.querySelector("#imgOutput");
         this.count = document.querySelector("#divCount");
         this.img;
+        this.OriginImage;
         this.downloadLink;
         this.saveButton;
         this.startCamera();
@@ -47,6 +48,7 @@ var vlib = {
             this.img = document.createElement("img");
             this.img.id="img" ;
             this.img.src = this.canvas.toDataURL('image/jpeg', 1.0);
+            this.OriginImage = this.img.src;
 
             try{
                 this.stream.getTracks()[0].stop();
@@ -102,78 +104,98 @@ var vlib = {
     //save change: capture and update image
     saveImage: function(){
         if(this.isCropped){//cropped image not yet saved
-            this.img.src = this.cropper.getCroppedCanvas({
+            const src = this.cropper.getCroppedCanvas({
                 width: this.img.width,
                 height: this.img.height,
                 fillColor: '#fff'
            }).toDataURL('image/jpeg', 1.0);
            this.cropper.destroy();
+           this.img.src = src;
+           this.downloadLink.href = src;
            this.isCropped = false;
         }else{
             this.ctx.width = this.img.width;
             this.ctx.height = this.img.height;
             this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
-            this.img.src = this.canvas.toDataURL('image/jpeg', 1.0); 
+            const src = this.canvas.toDataURL('image/jpeg', 1.0); 
+            this.ctx.filter='none';
+            this.img.className='';
+            this.downloadLink.href = src;
+            this.img.src = src;
         }
-        this.downloadImage();
     },
     downloadImage: function(){
         this.ctx.width = this.img.width;
         this.ctx.height = this.img.height;
         this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
         this.downloadLink.href = this.canvas.toDataURL('image/jpeg', 1.0); 
-        
     },
     applyFilter: function(filter){
         if(filter=='blur') {
             this.img.className='';
-            this.img.className+='blur';
+            this.img.className ='blur';
             this.ctx.filter = "blur(5px)";
         }
         else if(filter=='contrast'){
             this.img.className='';
-            this.img.className+='contrast';
+            this.img.className ='contrast';
             this.ctx.filter = "contrast(150%)";
         }
         else if(filter=='brightness'){
             this.img.className=''; 
-            this.img.className+='brightness';
-            this.ctx.filter+='brightness(150%)';
+            this.img.className='brightness';
+            this.ctx.filter='brightness(150%)';
         }
         else if(filter=='invert'){
             this.img.className='';
-            this.img.className+='invert';
-            this.ctx.filter+='invert(100%)';
+            this.img.className='invert';
+            this.ctx.filter='invert(100%)';
         }
         else if(filter=='hue'){
             this.img.className='';
-            this.img.className+='hue';
-            this.ctx.filter+='hue(90deg)';
+            this.img.className='hue';
+            this.ctx.filter='hue-rotate(90deg)';
         }
         else if(filter=='grayscale'){
             this.img.className='';
-            this.img.className+='grayscale';
-            this.ctx.filter+='grayscale(100%)';
+            this.img.className='grayscale';
+            this.ctx.filter='grayscale(100%)';
         }
         else if(filter=='sephia'){
             this.img.className='';
-            this.img.className+='sephia';
-            this.ctx.filter+='sephia(100%)';
+            this.img.className='sephia';
+            this.ctx.filter='sepia(100%)';
         }
         else if(filter=='none'){
             this.img.className='';
-            this.img.className+='none';
-            this.ctx.filter+='none';
+            this.img.className='none';
+            this.ctx.filter='none';
+            this.img.src=this.OriginImage;
+
+            //DOES NOT WORK
+        } else if(filter=='saturation'){
+            this.img.className='';
+            this.img.style.webkitFilter = "saturate(200%)";
+            this.ctx.filter='saturate(200%)';
         }
+        //DOES NOT WORK
         else if(filter=='rotate') {
-           if(this.deg<270) this.deg+=90;
-           else this.deg = 0;
-           console.log(this.deg);
+            if(this.deg<270) this.deg+=90;
+            else this.deg = 0;
+
+            this.ctx.translate(this.img.width/2, this.img.height/2);
+            this.ctx.rotate(this.deg*Math.PI/180);
+            this.ctx.translate(-this.img.width/2, -this.img.height/2);
+            this.saveImage();
+            this.ctx.rotate(-this.deg*Math.PI/180);
+            this.ctx.restore();
+           /*
             this.img.style.transform = 'rotate('+this.deg+'deg)';
-            /*this.ctx.translate(0,0);
-            this.ctx.drawImage(this.img,this.img.height,this.img.width);
-            this.ctx.rotate(this.deg*Math.PI/180);  
-            this.btnSave.href = this.canvas.toDataURL('image/jpeg', 1.0);
+            this.ctx.translate(this.img.width/2, this.img.height/2);
+            this.ctx.rotate(this.deg*Math.PI/180);
+            this.ctx.translate(-this.img.width/2, -this.img.height/2);
+            this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
+            this.saveImage();
             this.ctx.restore();*/
         }else if(filter=="crop"){
             this.cropper = new Cropper(this.img);
