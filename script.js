@@ -172,7 +172,6 @@ var vlib = {
             this.ctx.filter='none';
             this.img.src=this.OriginImage;
 
-            //DOES NOT WORK
         } else if(filter=='saturation'){
             this.img.className='';
             this.img.style.webkitFilter = "saturate(200%)";
