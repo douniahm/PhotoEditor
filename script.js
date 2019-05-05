@@ -17,16 +17,17 @@ var vlib = {
         this.btnStart = document.querySelector('#start');
         this.btnCapture = document.querySelector('.capture');
         this.btnDownload = document.querySelector('.download');
-      
+        this.saveDiv = document.querySelector(".save");
         this.divVideo = document.querySelector("#divVideo");
         this.divStart = document.querySelector("#divStart");
         this.output = document.querySelector("#imgOutput");
         this.count = document.querySelector("#divCount");
         this.img;
-        this.downloadLink
+        this.downloadLink;
+        this.saveButton;
         this.startCamera();
         this.cropper;
-
+        this.isCropped = false;
     },
     capture(){
         let i = 4;
@@ -64,15 +65,22 @@ var vlib = {
             this.btnCapture.setAttribute('hidden', 'true')
             this.count.setAttribute('hidden', 'true')
 
+            //create save button
+            this.saveButton = document.createElement('button');
+            this.saveButton.innerHTML = "Save"
+            this.saveButton.setAttribute('onclick', 'vlib.saveImage()')
+            this.saveButton.className += "download";    
+            //create download link
             this.downloadLink = document.createElement('a');
             this.downloadLink.innerHTML = "Download"
             this.downloadLink.setAttribute('role', 'button')
             this.downloadLink.setAttribute('download', 'picture.jpeg')
             this.downloadLink.className += "download";            
-            this.downloadCanvas();
+            this.downloadImage();
 
              this.output.prepend(this.img);
              this.btnDownload.prepend(this.downloadLink);
+             this.saveDiv.prepend(this.saveButton);
             
             for(let i =0; i<10;i++) this.tool[i].removeAttribute('hidden');
 
@@ -97,14 +105,38 @@ var vlib = {
     retry: function(){
         window.location.reload();
     },
-    downloadCanvas: function(){
+        //save change: capture and update image
+    saveImage: function(){
+        if(this.isCropped){
+            this.img.src = this.cropper.getCroppedCanvas({
+                width: this.img.width,
+                height: this.img.height,
+                fillColor: '#fff'
+           }).toDataURL('image/jpeg', 1.0);
+           this.cropper.destroy();
+           this.isCropped = false;
+        }else{
+            this.ctx.width = this.img.width;
+            this.ctx.height = this.img.height;
+            this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
+            this.img.src = this.canvas.toDataURL('image/jpeg', 1.0); 
+        }
+    },
+    SaveCroppedImage: function(){
+        // this.cropper.crop();
+         let imgSrc =  this.cropper.getCroppedCanvas({
+             width: this.img.width,
+             height: this.img.height,
+             fillColor: '#fff'
+           }).toDataURL('image/jpeg', 1.0);
+        },
+    downloadImage: function(){
         this.ctx.width = this.img.width;
         this.ctx.height = this.img.height;
         this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
-          
         this.downloadLink.href = this.canvas.toDataURL('image/jpeg', 1.0); 
     },
-    downloadImg: function(){
+    downloadCroppedImage: function(){
        // this.cropper.crop();
         let imgSrc =  this.cropper.getCroppedCanvas({
             width: this.img.width,
@@ -170,11 +202,13 @@ var vlib = {
             this.btnSave.href = this.canvas.toDataURL('image/jpeg', 1.0);
             this.ctx.restore();*/
         }
-         this.downloadCanvas();   
+        
+         this.downloadImage();   
     },
     cropping: function(){
             this.cropper = new Cropper(this.img);
-            this.downloadLink.onclick = this.downloadImg();
+            this.downloadLink.onclick = this.downloadCroppedImage();
+            this.isCropped = true;
     }
 }
 
