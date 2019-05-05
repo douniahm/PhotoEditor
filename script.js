@@ -42,8 +42,7 @@ var vlib = {
             }, 500); 
         
         setTimeout( async ()=>{
-            //on capture une img de la video
-            //this.ctx.drawImage(this.video,0,0,500,500,10,10,480,490);
+            //capture video
             this.ctx.drawImage(this.video,0,0,this.video.width, this.video.height);
             this.img = document.createElement("img");
             this.img.id="img" ;
@@ -60,8 +59,7 @@ var vlib = {
             retry.className+='retry';
             this.divStart.appendChild(retry);
 
-            //this.divVideo.outerHTML="";
-            this.divVideo.parentNode.removeChild(this.divVideo);//////////////////////////////
+            this.divVideo.parentNode.removeChild(this.divVideo);
             this.btnCapture.setAttribute('hidden', 'true')
             this.count.setAttribute('hidden', 'true')
 
@@ -78,26 +76,22 @@ var vlib = {
             this.downloadLink.className += "download";            
             this.downloadImage();
 
-             this.output.prepend(this.img);
-             this.btnDownload.prepend(this.downloadLink);
-             this.saveDiv.prepend(this.saveButton);
+            this.output.prepend(this.img);
+            this.btnDownload.prepend(this.downloadLink);
+            this.saveDiv.prepend(this.saveButton);
             
             for(let i =0; i<10;i++) this.tool[i].removeAttribute('hidden');
 
-            } ,6000);
-        
-
+            } ,6000);  
     },
     async startCamera(){
         try{
            this.stream = await navigator.mediaDevices.getUserMedia({video:true})//return a promise
-          // this.video.removeAttribute("hidden");
           this.btnCapture.removeAttribute('hidden');
            this.video.srcObject = this.stream
            this.video.play()
            this.btnStart.parentNode.removeChild(this.btnStart);
            this.divVideo.removeAttribute("hidden");
-
         }catch(error){
             console.log(error);
         }
@@ -105,9 +99,9 @@ var vlib = {
     retry: function(){
         window.location.reload();
     },
-        //save change: capture and update image
+    //save change: capture and update image
     saveImage: function(){
-        if(this.isCropped){
+        if(this.isCropped){//cropped image not yet saved
             this.img.src = this.cropper.getCroppedCanvas({
                 width: this.img.width,
                 height: this.img.height,
@@ -121,34 +115,14 @@ var vlib = {
             this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
             this.img.src = this.canvas.toDataURL('image/jpeg', 1.0); 
         }
+        this.downloadImage();
     },
-    SaveCroppedImage: function(){
-        // this.cropper.crop();
-         let imgSrc =  this.cropper.getCroppedCanvas({
-             width: this.img.width,
-             height: this.img.height,
-             fillColor: '#fff'
-           }).toDataURL('image/jpeg', 1.0);
-        },
     downloadImage: function(){
         this.ctx.width = this.img.width;
         this.ctx.height = this.img.height;
         this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
         this.downloadLink.href = this.canvas.toDataURL('image/jpeg', 1.0); 
-    },
-    downloadCroppedImage: function(){
-       // this.cropper.crop();
-        let imgSrc =  this.cropper.getCroppedCanvas({
-            width: this.img.width,
-            height: this.img.height,
-            fillColor: '#fff'
-          }).toDataURL('image/jpeg', 1.0);
-          this.downloadLink.href = imgSrc;
         
-         /* var img = document.createElement("img");
-            img.src = imgSrc;
-            document.getElementById("result").appendChild(img);*/
-            console.log(imgSrc);
     },
     applyFilter: function(filter){
         if(filter=='blur') {
@@ -201,14 +175,10 @@ var vlib = {
             this.ctx.rotate(this.deg*Math.PI/180);  
             this.btnSave.href = this.canvas.toDataURL('image/jpeg', 1.0);
             this.ctx.restore();*/
-        }
-        
-         this.downloadImage();   
-    },
-    cropping: function(){
+        }else if(filter=="crop"){
             this.cropper = new Cropper(this.img);
-            this.downloadLink.onclick = this.downloadCroppedImage();
             this.isCropped = true;
-    }
+        }
+    },
 }
 
