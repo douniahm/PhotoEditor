@@ -78,6 +78,6 @@ this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
 this.downloadLink.href = this.canvas.toDataURL('image/jpeg', 1.0); 
 ```
 
-## Other features are coming soon
 
 ### Dounia Ait Hammi
+### GLSID 2
