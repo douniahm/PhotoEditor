@@ -32,12 +32,16 @@ Created with Javascript and canvas API
 ----
 ## Sequence Diagram
 * Taking picture:
+
 ![ds1](https://user-images.githubusercontent.com/36522492/57415509-0b75c980-71ec-11e9-8f1f-be0a0646acf8.PNG)
+
 ---
 * Apllying Filters:
+
 ![ds 2](https://user-images.githubusercontent.com/36522492/57415512-0dd82380-71ec-11e9-8bd5-570d52de34a3.PNG)
+
 ----
-## explanatory code
+## Explanatory code
 * Start Camera: Using navigator media devices
 ```
 this.stream = await navigator.mediaDevices.getUserMedia({video:true})
@@ -50,6 +54,7 @@ this.img.id="img" ;
 this.img.src = this.canvas.toDataURL('image/jpeg', 1.0);
 ```
 * Apply filters: Exemple of Blur filter
+---
 **HTML**
 ```
 <div id="blur" class="tool" onclick="vlib.applyFilter('blur')">Blur</div>
