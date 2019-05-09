@@ -9,7 +9,6 @@ var vlib = {
         this.tool = document.getElementsByClassName('tool');
 
         let stream;
-        let deg = 0; //degree of rotation
         
         this.video = document.querySelector('#v1');
         this.w = this.video.width;
@@ -40,7 +39,7 @@ var vlib = {
             if(i == 0){
                 clearInterval(interval);
             }
-            }, 500); 
+            }, 1000); 
         
         setTimeout( async ()=>{
             //capture video
@@ -171,32 +170,13 @@ var vlib = {
             this.img.className='none';
             this.ctx.filter='none';
             this.img.src=this.OriginImage;
-
-        } else if(filter=='saturation'){
+        }
+        else if(filter=='saturation'){
             this.img.className='';
-            this.img.style.webkitFilter = "saturate(200%)";
+            this.img.style.filter = "saturate";
             this.ctx.filter='saturate(200%)';
         }
-        //DOES NOT WORK
-        else if(filter=='rotate') {
-            if(this.deg<270) this.deg+=90;
-            else this.deg = 0;
-
-            this.ctx.translate(this.img.width/2, this.img.height/2);
-            this.ctx.rotate(this.deg*Math.PI/180);
-            this.ctx.translate(-this.img.width/2, -this.img.height/2);
-            this.saveImage();
-            this.ctx.rotate(-this.deg*Math.PI/180);
-            this.ctx.restore();
-           /*
-            this.img.style.transform = 'rotate('+this.deg+'deg)';
-            this.ctx.translate(this.img.width/2, this.img.height/2);
-            this.ctx.rotate(this.deg*Math.PI/180);
-            this.ctx.translate(-this.img.width/2, -this.img.height/2);
-            this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
-            this.saveImage();
-            this.ctx.restore();*/
-        }else if(filter=="crop"){
+        else if(filter=="crop"){
             this.cropper = new Cropper(this.img);
             this.isCropped = true;
         }
