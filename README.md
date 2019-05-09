@@ -59,7 +59,7 @@ this.img.src = this.canvas.toDataURL('image/jpeg', 1.0);
 ```
 <div id="blur" class="tool" onclick="vlib.applyFilter('blur')">Blur</div>
 ```
-**JS**: we use CSS Filters to apply the filter and canvas the image modified
+**Javascript**: we use CSS Filters to apply the filter and canvas the image modified
 ```
 if(filter=='blur') {
             this.img.className='';
