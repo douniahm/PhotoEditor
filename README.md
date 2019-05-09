@@ -82,7 +82,7 @@ if(filter=='blur') {
 this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
 this.img.sr = this.canvas.toDataURL('image/jpeg', 1.0); 
 ```
-* Download image: using a button
+* Download image
 ```
 this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
 this.downloadLink.href = this.canvas.toDataURL('image/jpeg', 1.0); 
