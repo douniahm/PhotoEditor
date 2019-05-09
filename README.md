@@ -54,7 +54,7 @@ this.img.id="img" ;
 this.img.src = this.canvas.toDataURL('image/jpeg', 1.0);
 ```
 * Apply filters: Exemple of Blur filter
----
+
 **HTML**
 ```
 <div id="blur" class="tool" onclick="vlib.applyFilter('blur')">Blur</div>
