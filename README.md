@@ -29,9 +29,50 @@ Created with Javascript and canvas API
 
 * Step3: Download the picture
 ![7 download](https://user-images.githubusercontent.com/36522492/57413964-b59e2300-71e5-11e9-89f1-86cd989b7379.PNG)
-
-
 ----
+## Sequence Diagram
+* Taking picture:
+![ds1](https://user-images.githubusercontent.com/36522492/57415509-0b75c980-71ec-11e9-8f1f-be0a0646acf8.PNG)
+---
+* Apllying Filters:
+![ds 2](https://user-images.githubusercontent.com/36522492/57415512-0dd82380-71ec-11e9-8bd5-570d52de34a3.PNG)
+----
+## explanatory code
+* Start Camera: Using navigator media devices
+```
+this.stream = await navigator.mediaDevices.getUserMedia({video:true})
+```
+* Take picture: Using canvas 
+```
+this.ctx.drawImage(this.video,0,0,this.video.width, this.video.height);
+this.img = document.createElement("img");
+this.img.id="img" ;
+this.img.src = this.canvas.toDataURL('image/jpeg', 1.0);
+```
+* Apply filters: Exemple of Blur filter
+**HTML**
+```
+<div id="blur" class="tool" onclick="vlib.applyFilter('blur')">Blur</div>
+```
+**JS**: we use CSS Filters to apply the filter and canvas the image modified
+```
+if(filter=='blur') {
+            this.img.className='';
+            this.img.className ='blur';
+            this.ctx.filter = "blur(5px)";
+}
+```
+* Save filters
+```
+this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
+this.img.sr = this.canvas.toDataURL('image/jpeg', 1.0); 
+```
+* Download image: using a button
+```
+this.ctx.drawImage(this.img,0,0, this.img.width, this.img.height);
+this.downloadLink.href = this.canvas.toDataURL('image/jpeg', 1.0); 
+```
+
 ## Other features are coming soon
 
 ### Dounia Ait Hammi
