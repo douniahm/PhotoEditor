@@ -4,49 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Photo Editor</title>
+    <!--Style css-->
     <link rel="stylesheet" href="style.css">
+    <!--Bootstrap-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!--CropJs-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/0.8.1/cropper.min.js" ></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css" rel="stylesheet"/>
-    <title>Photo Editor</title>
 </head>
 <body>
-    <div id="divStart"> 
-        <p style="color:white">Take a photo!</p>
-        <button onclick="vlib.init()" id="start">Start</button>
-        <button hidden onclick="vlib.capture()" class="capture" >Capture</button>
-    </div>
-
-    <div id="container">
-        <div id="outputs"> 
-            <div id="divCount"></div>
-            <div id="divVideo" hidden> 
-                    <video id="v1"  width="500" height="500">
-                    </video>
+    <div class="card text-center container bg-dark col-8 offset-2">
+        <h5 class="card-header text-white">Photo Editor</h5>
+        <div class="card-body">
+            <button onclick="vlib.lunchCamera()" id="start" class="btn bg-white">Lunch Camera!</button>
+            <button onclick="vlib.uploadPhoto()" id="upload" class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">Upload a photo!</button>
+            <div class="container-card">
+                <div hidden class="container" id="toolsContainer" >
+                <div class="tool">
+                    <p> 
+                        <h3><img src="https://img.icons8.com/dotty/30/ffffff/sorting-options.png">Filters</h3> 
+                        <hr>
+                    </p>
+                </div>
+                <div class="tool">
+                    <p>Brightness
+                        <input id="brightness" type="range" min="0" max="200" step="1" value="100"
+                        onchange="vlib.applyFilter(this.id, this.value)" />
+                    </p>
+                </div>
+                 <div class="tool">
+                    <p>Blur
+                         <input id="blur" type="range" min="0" max="30" step="1" value="15"
+                        onchange="vlib.applyFilter(this.id, this.value)" />
+                    </p>
+                </div>
+                <div class="tool">
+                    <p>Contrast
+                        <input id="contrast" type="range" min="0" max="200" step="1" value="100"
+                            onchange="vlib.applyFilter(this.id, this.value)" />
+                    </p>
+                </div>
+                <div class="tool">
+                    <p>Invert
+                        <input id="invert" type="range" min="0" max="200" step="1" value="100"
+                            onchange="vlib.applyFilter(this.id, this.value)" />
+                    </p>
+                </div>
+                <div class="tool">
+                    <p>Sepia
+                        <input id="sepia" type="range" min="0" max="200" step="1" value="100"
+                            onchange="vlib.applyFilter(this.id, this.value)" />
+                    </p>
+                </div>
+                <div class="tool">
+                    <p>Grayscale
+                        <input id="grayscale" type="range" min="0" max="200" step="1" value="100"
+                            onchange="vlib.applyFilter(this.id, this.value)" />
+                    </p>
+                </div>
+                <div class="tool">
+                    <p>Hue
+                        <input id="hue" type="range" min="0" max="200" step="1" value="100"
+                            onchange="vlib.applyFilter(this.id, this.value)" />
+                    </p>
+                </div>
+                <div class="tool">
+                    <p>Saturation
+                        <input id="saturation" type="range" min="0" max="200" step="1" value="100"
+                            onchange="vlib.applyFilter(this.id, this.value)" />
+                    </p>
+                </div>
+                <div class="tool">
+                    <p id="crop" onclick="vlib.applyFilter(this.id, 0)" role="button" style="cursor: pointer;">
+                        <img src="https://img.icons8.com/ios/30/ffffff/crop-filled.png"> Crop 
+                    </p>
+                </div>
+                </div>
+                <div id="imageOutput" class="inner-container">
+                        <div hidden id="outputs"> 
+                            <p id="divCount"></p>
+                            <div id="divVideo"> 
+                                <video id="v1"  width="400" height="400"></video>
+                            </div>
+                            <button onclick="vlib.capture()" id="capture" class="btn btn-primary">Capture</button>
+                        </div>
+                        <div id="imgOutput"></div> 
+                        <div id="buttons">
+                            <button class="save btn "></button>
+                            <button class="download  btn"></button>
+                            <button class="retry btn "></button>
+                            <button class="delete btn "></button>
+                        </div>  
+                </div>
             </div>
-
-            <div id="imgOutput"></div>
         </div>
-
-        <div id="toolsContainer">
-            <div>
-                <div hidden id="none" class="tool" onclick="vlib.applyFilter('none')">Original</div>
-                <div hidden id="blur" class="tool" onclick="vlib.applyFilter('blur')">Blur</div>
-                <div hidden id="contrast" class="tool" onclick="vlib.applyFilter('contrast')">Contrast</div>
-                <div hidden id="brightness" class="tool" onclick="vlib.applyFilter('brightness')">Brightness</div>
-                <div hidden id="invert" class="tool" onclick="vlib.applyFilter('invert')">Invert</div>
-                <div hidden id="sephia" class="tool" onclick="vlib.applyFilter('sephia')">Sephia</div>
-                <div hidden id="grayscale" class="tool" onclick="vlib.applyFilter('grayscale')">Grayscale</div>
-                <div hidden id="hue" class="tool" onclick="vlib.applyFilter('hue')">Hue</div>
-                <div hidden id="hue" class="tool" onclick="vlib.applyFilter('saturation')">Saturation</div>
-                <div hidden id="crop" class="tool" onclick="vlib.applyFilter('crop')">Crop</div>
-            </div>
-            <div class="save"></div>
-            <div class="download"></div>
-        </div>
-            
+        <div class="card-footer text-muted fixed-bottom">
+             Dounia Ait Hammi
+        </div>     
     </div>
-
-    <script src="script.js">
-    </script>
+    <!--Modal-->
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog"> 
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Image Uploader</h4>
+                        <button type="button" class="close" data-dismiss="modal">X</button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="form-group">
+                                <label for="input">Image</label><br>
+                                <input accept="image/*" type="file" onchange="vlib.getUploadedImg(event)"><br> <br>
+                                <input type="submit" value="submit" onclick="vlib.generateEditor()"> 
+                            </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+ 
+    <script src="script.js"></script>
+    
 </body>
 </html>

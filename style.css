@@ -1,117 +1,50 @@
 body{
     font-family: 'Open Sans Condensed', sans-serif;    align-items: center;
-    text-align: center;
     align-content: center;
-    background: linear-gradient(to bottom right, #0099F7, #F11712) ; 
-    background: -webkit-linear-gradient(left top, #0099F7, #F11712);    
 }
-#container{
+.title{
+    color:white;
+}
+.container-card{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#buttons{
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
 }
-#outputs{
-   display: flex;
+
+#toolsContainer, .inner-container{
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: 14px;
 }
-#toolsContainer{
-    display: flex;
-    flex-direction: row;
-    justify-content:  center;
-    align-items: center;
-}
-#tools{
-    display: flex;
-    flex-direction: column;
-    justify-content: center ;
-    align-items: center;
-}
-
-#divVideo, #divStart, #imgOutput{
-    font-size: 30px;
-    color: '#794ACF';
-    text-align: center;
-    align-content: center;
-}
-
-#start, .capture, .download{
-    background-color: black;
-    border: 2px solid black;
-    border-radius: 5px; 
-    color: white;
-    font-size: 40px;
-    text-decoration: none;
-}
-#start:hover, .capture:hover, .download:hover{
-    background-color: transparent;
-}
-#divVideo {
-    margin: 10px;
-    }
 .download{
-    margin: 10px;
-    text-decoration: none;
+    margin: 40px;
+    text-decoration: none !important;
 }
-/*
-#parentVid{
-    margin: 10px;
-    position: absolute;
-    top: 0;
-    left: 30%;
-    z-index: -1;
-}*/
+
 #divCount{
-    font-size: 40px;
-    text-shadow: 2px 2px rgb(223, 219, 219);
+    font-size: 20px;
+    text-shadow: 1px 1px rgb(218, 213, 213);
     font-weight: bold;
 }
 
 .tool{
-    background-color: black;
-    border: 2px solid black;
-    border-radius: 3px; 
     color: white;
-    font-size: 20px;
-    cursor: pointer;
-    margin: 10px;
+    font-size: 14px;
+    margin-left: -10px;
+    margin-top: 0px;
+    text-align: center;
+    align-content: center;
 }
 .blur{
-    filter:blur(5px);
-}
-.contrast{
-    filter:contrast(150%);
-}
-.brightness{
-  filter:brightness(150%);
-}
-.invert{
-    filter:invert(100%);
-}   
-.sephia{
-    filter:sepia(100%);
-}
-.grayscale{
-    filter:grayscale(100%);
-}
-.hue{
-    filter:hue-rotate(90deg);
-}
-.none{
-    filter: none;
-}
-
-.retry{
-    color: black;
-    font-size: 40px;
-    text-shadow: 2px 2px rgb(223, 219, 219);
-    font-weight: bold;
-    text-transform: capitalize;
-    cursor: pointer;
-}
-#imgOutput{
-    touch-action: none;
-
+    filter: blur(5px);
 }
